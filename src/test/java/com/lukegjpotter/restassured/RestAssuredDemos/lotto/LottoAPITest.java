@@ -30,6 +30,26 @@ public class LottoAPITest {
                 .get("/check/1,2,3,4,5,6")
                 .then()
                 .statusCode(200)
+                .body("success", equalTo(true))
                 .body("result", equalTo("Winner"));
+    }
+
+    @Test
+    public void checkNumbers_losingNumbers() {
+        when()
+                .get("/check/7,2,3,4,5,6")
+                .then()
+                .statusCode(200)
+                .body("success", equalTo(true))
+                .body("result", equalTo("Not this time."));
+    }
+
+    @Test
+    public void checkNumbers_Error() {
+        when()
+                .get("/check/69,420")
+                .then()
+                .statusCode(200)
+                .body("success", equalTo(false));
     }
 }
