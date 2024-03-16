@@ -33,4 +33,11 @@ public class LottoApiController {
 
         return "Alive";
     }
+
+    @GetMapping("/history")
+    public LottoDrawHistoryDto getDrawHistory() {
+        logger.trace("Draw History endpoint called.");
+
+        return lottoService.getDrawHistory();
+    }
 }

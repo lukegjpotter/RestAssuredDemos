@@ -27,4 +27,8 @@ class LottoService {
         if (numbers.equals(mostRecentDrawNumbers)) return new NumbersCheckDto(true, "Winner");
         else return new NumbersCheckDto(true, "Not this time.");
     }
+
+    public LottoDrawHistoryDto getDrawHistory() {
+        return new LottoDrawHistoryDto(lottoRepository.findAll());
+    }
 }
