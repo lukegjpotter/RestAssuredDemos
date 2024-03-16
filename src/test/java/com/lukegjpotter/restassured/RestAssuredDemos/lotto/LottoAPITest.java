@@ -26,6 +26,10 @@ public class LottoAPITest {
 
     @Test
     public void checkNumbers_winningNumbers() {
-        when().get("/check/1,2,3,4,5,6").then().statusCode(200).body("result", equalTo("Winner"));
+        when()
+                .get("/check/1,2,3,4,5,6")
+                .then()
+                .statusCode(200)
+                .body("result", equalTo("Winner"));
     }
 }
