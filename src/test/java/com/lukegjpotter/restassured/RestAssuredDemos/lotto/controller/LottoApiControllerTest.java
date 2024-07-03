@@ -73,7 +73,8 @@ public class LottoApiControllerTest {
                 .get("/history")
                 .then()
                 .statusCode(HttpStatus.SC_OK)
-                .body("lottodraws[0]", not(hasKey("id")));
+                .body("lottodraws", everyItem(not(hasKey("id"))),
+                        "errorMessage", blankString());
     }
 
     @Test
@@ -83,6 +84,7 @@ public class LottoApiControllerTest {
                 .then()
                 .statusCode(HttpStatus.SC_OK)
                 .body("lottodraws.findAll { it.winningNumbers.contains(42) }.drawDateTime",
-                        hasItems("2004-08-16T23:42:00", "2024-03-15T19:00:00"));
+                        hasItems("2004-08-16T23:42:00", "2024-03-15T19:00:00"),
+                        "errorMessage", blankString());
     }
 }
