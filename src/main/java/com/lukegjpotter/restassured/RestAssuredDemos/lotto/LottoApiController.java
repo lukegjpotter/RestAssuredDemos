@@ -2,6 +2,7 @@ package com.lukegjpotter.restassured.RestAssuredDemos.lotto;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,7 +14,7 @@ import java.util.List;
 @RequestMapping("/lotto")
 public class LottoApiController {
 
-    private LottoService lottoService;
+    private final LottoService lottoService;
     private final Logger logger = LoggerFactory.getLogger(LottoApiController.class);
 
     public LottoApiController(LottoService lottoService) {
@@ -21,23 +22,26 @@ public class LottoApiController {
     }
 
     @GetMapping("/check/{numbers}")
-    public NumbersCheckDto checkNumbers(@PathVariable List<Integer> numbers) {
+    public ResponseEntity<NumbersCheckDto> checkNumbers(@PathVariable List<Integer> numbers) {
         logger.trace("Check Numbers endpoint called.");
 
-        return lottoService.checkNumbers(numbers);
+        NumbersCheckDto numberCheckDto = lottoService.checkNumbers(numbers);
+
+        if (numberCheckDto.errorMessage().isEmpty()) return ResponseEntity.ok(numberCheckDto);
+        else return ResponseEntity.badRequest().body(numberCheckDto);
     }
 
     @GetMapping("/health")
-    public String getHealth() {
+    public ResponseEntity<String> getHealth() {
         logger.trace("Health endpoint called.");
 
-        return "Alive";
+        return ResponseEntity.ok("Alive");
     }
 
     @GetMapping("/history")
-    public LottoDrawHistoryDto getDrawHistory() {
+    public ResponseEntity<LottoDrawHistoryDto> getDrawHistory() {
         logger.trace("Draw History endpoint called.");
 
-        return lottoService.getDrawHistory();
+        return ResponseEntity.ok(lottoService.getDrawHistory());
     }
 }

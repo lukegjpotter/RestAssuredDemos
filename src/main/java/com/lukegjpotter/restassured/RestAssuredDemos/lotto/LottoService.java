@@ -8,7 +8,7 @@ import java.util.Collections;
 import java.util.List;
 
 @Service
-class LottoService {
+public class LottoService {
 
     private final Logger logger = LoggerFactory.getLogger(LottoService.class);
     LottoRepository lottoRepository;
@@ -18,17 +18,18 @@ class LottoService {
     }
 
     public NumbersCheckDto checkNumbers(List<Integer> numbers) {
-        if (numbers.size() != 6) return new NumbersCheckDto(false, "error");
+        logger.trace("Numbers Supplied: {}", numbers);
+        if (numbers.size() != 6) return new NumbersCheckDto("", "Error: You must supply six numbers");
 
         Collections.sort(numbers);
         List<Integer> mostRecentDrawNumbers = lottoRepository.findTopByOrderByDrawDateTimeDesc().getWinningNumbers();
         Collections.sort(mostRecentDrawNumbers);
 
-        if (numbers.equals(mostRecentDrawNumbers)) return new NumbersCheckDto(true, "Winner");
-        else return new NumbersCheckDto(true, "Not this time.");
+        if (numbers.equals(mostRecentDrawNumbers)) return new NumbersCheckDto("Winner", "");
+        else return new NumbersCheckDto("Not this time.", "");
     }
 
     public LottoDrawHistoryDto getDrawHistory() {
-        return new LottoDrawHistoryDto(lottoRepository.findAll());
+        return new LottoDrawHistoryDto(lottoRepository.findAll(), "");
     }
 }
