@@ -2,6 +2,10 @@
 
 Learning REST Assured via a combination of open APIs and custom Spring Boot Web ones.
 
+### Deploy Buttons
+
+[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/lukegjpotter/RestAssuredDemos)
+
 ### How to Use
 
 Optional: Install JSON to format/pretty print the Response.
