@@ -1,5 +1,6 @@
 package com.lukegjpotter.restassured.RestAssuredDemos.lotto.service;
 
+import com.lukegjpotter.restassured.RestAssuredDemos.lotto.dto.LottoDrawDto;
 import com.lukegjpotter.restassured.RestAssuredDemos.lotto.dto.LottoDrawHistoryDto;
 import com.lukegjpotter.restassured.RestAssuredDemos.lotto.dto.NumbersCheckDto;
 import com.lukegjpotter.restassured.RestAssuredDemos.lotto.repository.LottoRepository;
@@ -7,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -33,6 +35,12 @@ public class LottoService {
     }
 
     public LottoDrawHistoryDto getDrawHistory() {
-        return new LottoDrawHistoryDto(lottoRepository.findAll(), "");
+
+        List<LottoDrawDto> lottoDrawDtos = new ArrayList<>();
+        lottoRepository.findAll().forEach(
+                lottoDraw -> lottoDrawDtos.add(
+                        new LottoDrawDto(lottoDraw.getWinningNumbers(), lottoDraw.getDrawDateTime())));
+
+        return new LottoDrawHistoryDto(lottoDrawDtos, lottoDrawDtos.isEmpty() ? "No Draws in History." : "");
     }
 }

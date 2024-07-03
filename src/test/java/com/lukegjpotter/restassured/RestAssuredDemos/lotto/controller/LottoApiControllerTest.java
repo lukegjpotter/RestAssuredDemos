@@ -68,6 +68,15 @@ public class LottoApiControllerTest {
     }
 
     @Test
+    public void drawHistory_DoesNotContainIDs() {
+        when()
+                .get("/history")
+                .then()
+                .statusCode(HttpStatus.SC_OK)
+                .body("lottodraws[0]", not(hasKey("id")));
+    }
+
+    @Test
     public void drawHistory_containing42() {
         when()
                 .get("/history")
