@@ -1,4 +1,4 @@
-package com.lukegjpotter.restassured.RestAssuredDemos.lotto;
+package com.lukegjpotter.restassured.RestAssuredDemos.lotto.controller;
 
 import org.apache.http.HttpStatus;
 import org.junit.jupiter.api.BeforeAll;

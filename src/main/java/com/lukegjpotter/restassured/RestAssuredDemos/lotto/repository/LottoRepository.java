@@ -1,5 +1,6 @@
-package com.lukegjpotter.restassured.RestAssuredDemos.lotto;
+package com.lukegjpotter.restassured.RestAssuredDemos.lotto.repository;
 
+import com.lukegjpotter.restassured.RestAssuredDemos.lotto.model.LottoDraw;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;

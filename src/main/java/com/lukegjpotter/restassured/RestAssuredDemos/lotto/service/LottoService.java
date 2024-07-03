@@ -1,5 +1,8 @@
-package com.lukegjpotter.restassured.RestAssuredDemos.lotto;
+package com.lukegjpotter.restassured.RestAssuredDemos.lotto.service;
 
+import com.lukegjpotter.restassured.RestAssuredDemos.lotto.dto.LottoDrawHistoryDto;
+import com.lukegjpotter.restassured.RestAssuredDemos.lotto.dto.NumbersCheckDto;
+import com.lukegjpotter.restassured.RestAssuredDemos.lotto.repository.LottoRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;

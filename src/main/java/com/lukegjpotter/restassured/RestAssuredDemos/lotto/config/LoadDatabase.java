@@ -1,5 +1,7 @@
-package com.lukegjpotter.restassured.RestAssuredDemos.lotto;
+package com.lukegjpotter.restassured.RestAssuredDemos.lotto.config;
 
+import com.lukegjpotter.restassured.RestAssuredDemos.lotto.model.LottoDraw;
+import com.lukegjpotter.restassured.RestAssuredDemos.lotto.repository.LottoRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;

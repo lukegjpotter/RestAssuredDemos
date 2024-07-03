@@ -1,4 +1,4 @@
-package com.lukegjpotter.restassured.RestAssuredDemos.lotto;
+package com.lukegjpotter.restassured.RestAssuredDemos.lotto.model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
