@@ -7,8 +7,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.*;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 public class PokeApiControllerTest {
@@ -25,5 +24,13 @@ public class PokeApiControllerTest {
                 .then().statusCode(HttpStatus.SC_OK)
                 .body("abilities.ability[1].name", equalTo("solar-power"),
                         "abilities.is_hidden[1]", is(true));
+    }
+
+    @Test
+    void ability_SolarPower_LesserKnownPokemon() {
+        RestAssured.given().contentType(ContentType.JSON)
+                .when().get("/ability/solar-power")
+                .then().statusCode(HttpStatus.SC_OK)
+                .body("pokemon.pokemon.name", hasItems("tropius", "sunkern", "sunflora", "helioptile", "heliolisk"));
     }
 }
