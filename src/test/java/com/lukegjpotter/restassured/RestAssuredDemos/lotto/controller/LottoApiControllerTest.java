@@ -74,7 +74,7 @@ public class LottoApiControllerTest {
                 .then()
                 .statusCode(HttpStatus.SC_OK)
                 .body("lottodraws", everyItem(not(hasKey("id"))),
-                        "errorMessage", blankString());
+                        "errorMessage", emptyString());
     }
 
     @Test
@@ -85,6 +85,12 @@ public class LottoApiControllerTest {
                 .statusCode(HttpStatus.SC_OK)
                 .body("lottodraws.findAll { it.winningNumbers.contains(42) }.drawDateTime",
                         hasItems("2004-08-16T23:42:00", "2024-03-15T19:00:00"),
-                        "errorMessage", blankString());
+                        "errorMessage", emptyString());
+    }
+
+    @Test
+    void checkNumbers_Error_404() {
+        when().get("/czech/1,2,3,4,5,6")
+                .then().statusCode(HttpStatus.SC_NOT_FOUND);
     }
 }
