@@ -1,15 +1,16 @@
 package com.lukegjpotter.restassured.RestAssuredDemos.lotto.controller;
 
+import com.lukegjpotter.restassured.RestAssuredDemos.lotto.dto.AdminRequestRecord;
 import com.lukegjpotter.restassured.RestAssuredDemos.lotto.dto.LottoDrawHistoryDto;
 import com.lukegjpotter.restassured.RestAssuredDemos.lotto.dto.NumbersCheckDto;
+import com.lukegjpotter.restassured.RestAssuredDemos.lotto.exception.UserDoesntHaveRoleException;
+import com.lukegjpotter.restassured.RestAssuredDemos.lotto.exception.UserNotAuthorizedException;
 import com.lukegjpotter.restassured.RestAssuredDemos.lotto.service.LottoService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -46,5 +47,17 @@ public class LottoApiController {
         logger.trace("Draw History endpoint called.");
 
         return ResponseEntity.ok(lottoService.getDrawHistory());
+    }
+
+    @PostMapping("/triggerdraw")
+    public ResponseEntity<LottoDrawHistoryDto> triggerDraw(@RequestBody AdminRequestRecord adminRequestRecord) {
+
+        try {
+            return ResponseEntity.ok(lottoService.triggerDraw(adminRequestRecord));
+        } catch (UserNotAuthorizedException e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new LottoDrawHistoryDto(null, "Error: User not Authorized to Access this Endpoint"));
+        } catch (UserDoesntHaveRoleException e) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(new LottoDrawHistoryDto(null, "Error: User not Allowed to Access this Endpoint"));
+        }
     }
 }

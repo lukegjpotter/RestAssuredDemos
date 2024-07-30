@@ -1,13 +1,14 @@
 package com.lukegjpotter.restassured.RestAssuredDemos.lotto.controller;
 
+import com.lukegjpotter.restassured.RestAssuredDemos.lotto.dto.AdminRequestRecord;
+import io.restassured.http.ContentType;
 import org.apache.http.HttpStatus;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import static io.restassured.RestAssured.baseURI;
-import static io.restassured.RestAssured.when;
+import static io.restassured.RestAssured.*;
 import static org.hamcrest.Matchers.*;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
@@ -92,5 +93,35 @@ public class LottoApiControllerTest {
     void checkNumbers_Error_404() {
         when().get("/czech/1,2,3,4,5,6")
                 .then().statusCode(HttpStatus.SC_NOT_FOUND);
+    }
+
+    @Test
+    void triggerDraw_UserAdmin() {
+        given().contentType(ContentType.JSON)
+                .body(new AdminRequestRecord("uevnewfiopvuebqiougbq"))
+                .when().post("/triggerdraw")
+                .then().statusCode(HttpStatus.SC_OK)
+                .body("lottodraws[0].winningNumbers", hasSize(6),
+                        "errorMessage", emptyString());
+    }
+
+    @Test
+    void triggerDraw_HackingAttempt() {
+        given().contentType(ContentType.JSON)
+                .body(new AdminRequestRecord(""))
+                .when().post("/triggerdraw")
+                .then().statusCode(HttpStatus.SC_UNAUTHORIZED)
+                .body("result", nullValue(),
+                        "errorMessage", equalTo("Error: User not Authorized to Access this Endpoint"));
+    }
+
+    @Test
+    void triggerDraw_NotCorrectAdminRole() {
+        given().contentType(ContentType.JSON)
+                .body(new AdminRequestRecord("ifuglvieaubvllwerivbi"))
+                .when().post("/triggerdraw")
+                .then().statusCode(HttpStatus.SC_FORBIDDEN)
+                .body("result", nullValue(),
+                        "errorMessage", equalTo("Error: User not Allowed to Access this Endpoint"));
     }
 }
