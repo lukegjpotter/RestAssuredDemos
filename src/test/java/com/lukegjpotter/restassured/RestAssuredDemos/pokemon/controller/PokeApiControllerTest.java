@@ -31,6 +31,16 @@ public class PokeApiControllerTest {
         RestAssured.given().contentType(ContentType.JSON)
                 .when().get("/ability/solar-power")
                 .then().statusCode(HttpStatus.SC_OK)
-                .body("pokemon.pokemon.name", hasItems("tropius", "sunkern", "sunflora", "helioptile", "heliolisk"));
+                .body("pokemon.pokemon.name", hasItems("tropius", "sunkern", "sunflora", "helioptile", "heliolisk"))
+                .body("pokemon.pokemon", hasSize(greaterThanOrEqualTo(5)));
+    }
+
+    @Test
+    void moveLearnedBy_Transform_MewDitto() {
+        RestAssured.given().contentType(ContentType.JSON)
+                .when().get("/move/transform")
+                .then().statusCode(HttpStatus.SC_OK)
+                .body("learned_by_pokemon.name", hasItems("ditto", "mew"))
+                .body("learned_by_pokemon.name", hasSize(2));
     }
 }
