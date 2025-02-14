@@ -22,7 +22,7 @@ public class PokeApiControllerTest {
         RestAssured.given().contentType(ContentType.JSON)
                 .when().get("/pokemon/charizard")
                 .then().statusCode(HttpStatus.SC_OK)
-                .body("abilities.ability[1].name", equalTo("solar-power"),
+                .body("abilities.ability[1].name", is("solar-power"),
                         "abilities.is_hidden[1]", is(true));
     }
 
@@ -42,5 +42,20 @@ public class PokeApiControllerTest {
                 .then().statusCode(HttpStatus.SC_OK)
                 .body("learned_by_pokemon.name", hasItems("ditto", "mew"))
                 .body("learned_by_pokemon.name", hasSize(2));
+    }
+
+    @Test
+    void pokemonDetails_Mew() {
+        RestAssured.given().contentType(ContentType.JSON)
+                .when().get("/pokemon/mew")
+                .then().statusCode(HttpStatus.SC_OK)
+                .body("name", is("mew"))
+                .body("id", is(151))
+                .body("game_indices.version.name", hasItems("red", "blue", "yellow"))
+                .body("types.type.name", hasSize(1))
+                .body("types.type.name", hasItem("psychic"))
+                .body("abilities", hasSize(1))
+                .body("abilities.ability.name", hasItem("synchronize"))
+                .body("stats.base_stat", everyItem(is(100)));
     }
 }
