@@ -45,14 +45,16 @@ History is another API that Returns a list.
 
 CLI Gradle
 
-    ./gradlew build bootRun
+    ./gradlew clean build bootRun
 
 Docker CLI Instructions
 
     docker build --pull -t rest-assured-demos:latest .
     
-    docker run --name rest_assured_demos \
+    docker run --name rest-assured-demos \
       -p 8080:8080 \
       -d --rm rest-assured-demos:latest
+
+    docker container stop rest-assured-demos
 
 Then you can run the `curl` command above.

@@ -1,6 +1,6 @@
 plugins {
     id 'java'
-    id 'org.springframework.boot' version '3.4.2'
+    id 'org.springframework.boot' version '3.5.0'
     id 'io.spring.dependency-management' version '1.1.7'
 }
 
@@ -24,8 +24,8 @@ dependencies {
     runtimeOnly 'com.h2database:h2'
 
     // Place the RestAssured dependencies above the SpringBoot Test, so the correct Matchers are used.
-    testImplementation 'io.rest-assured:rest-assured:5.4.0'
-    testImplementation 'io.rest-assured:json-schema-validator:5.4.0'
+    testImplementation 'io.rest-assured:rest-assured:5.5.5'
+    testImplementation 'io.rest-assured:json-schema-validator:5.5.5'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
